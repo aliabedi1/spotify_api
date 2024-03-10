@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::as('login')->prefix('/login')->group(function () {
+    Route::get('/', function () {
+        return Socialite::driver('spotify')->redirect();
+    })->name('index');
+
+    Route::get('/callback', function () {
+        $user = Socialite::driver('spotify')->user();
+    })->name('callback');
 });
+
