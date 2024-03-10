@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SpotifyAuthController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,14 +16,20 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 
-Route::get('/get-token', [
-    HomeController::class,
-    'getToken'
-])->name('get-token');
+Route::get('/login', [
+    SpotifyAuthController::class,
+    'login'
+])
+    ->name('login');
 
 
+Route::get('/login/callback', [
+    SpotifyAuthController::class,
+    'callback'
+])
+    ->name('callback');
 
-Route::get('home', [
+Route::get('home/{token}', [
     HomeController::class,
     'index'
 ])
