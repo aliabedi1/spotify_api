@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -15,13 +16,16 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 
-Route::as('login')->prefix('/login')->group(function () {
-    Route::get('/', function () {
-        return Socialite::driver('spotify')->redirect();
-    })->name('index');
+Route::get('/get-token', [
+    HomeController::class,
+    'getToken'
+])->name('get-token');
 
-    Route::get('/callback', function () {
-        $user = Socialite::driver('spotify')->user();
-    })->name('callback');
-});
+
+
+Route::get('home', [
+    HomeController::class,
+    'index'
+])
+    ->name('home');
 
