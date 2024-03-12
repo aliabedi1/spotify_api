@@ -16,22 +16,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/login', [
-    SpotifyAuthController::class,
-    'login'
-])
-    ->name('login');
+Route::prefix('/login')->group(function () {
 
-
-Route::get('/login/callback', [
-    SpotifyAuthController::class,
-    'callback'
-])
-    ->name('callback');
+    Route::get('/', [
+        SpotifyAuthController::class,
+        'login',
+    ])
+        ->name('login');
+    Route::get('/callback', [
+        SpotifyAuthController::class,
+        'callback',
+    ])
+        ->name('callback');
+});
 
 Route::get('home/{token}', [
     HomeController::class,
-    'index'
+    'index',
 ])
     ->name('home');
 
