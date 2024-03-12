@@ -11,35 +11,36 @@ class HomeController extends Controller
     public function index(string $token)
     {
         $api = new SpotifyWebAPI();
-        $api->setAccessToken($token); // Fetch the saved access token
-        // Example: Get the currently authenticated user's data
-//        $userData = $api->me();
-        $tracks = [];
+        $api->setAccessToken($token);
+
         $offset = 0;
         for ($counter = 0; $counter < 32; $counter++) {
-            $data = $api->getPlaylistTracks('2XICHivZc0s0hCRSBEtiZS', [
-                'offset' => $offset
+            $data = $api->getPlaylistTracks(config('services.spotify.playlist_id'), [
+                'offset' => $offset,
             ]);
+
+            $tracks = [];
             $items = response()->json($data)->original->items;
-//            dd($items[0]);
+
             foreach ($items as $item) {
-                $artists = '';
+
+                $artists = [];
                 foreach ($item->track->album->artists as $artist) {
-                    $artists .= $artist->name;
+                    $artists[] = $artist->name;
                 }
+
                 $tracks[] = [
                     'album_id' => $item->track->album->id,
                     'album_name' => $item->track->album->name,
-                    'poster' => isset($item->track->album->images[0]) ? $item->track->album->images[0]->url : null,
-                    'artists' => $artists
+                    'image_url' => isset($item->track->album->images[0]) ? $item->track->album->images[0]->url : NULL,
+                    'artists' => implode(', ', $artists),
                 ];
+
+                Album::insertOrIgnore($tracks);
+
+                sleep(5);
+                $offset = ($counter+1) + 100;
             }
-            sleep(5);
-            $offset += 100;
         }
-//        Album::
-
-
     }
-
 }
