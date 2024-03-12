@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Album
  * 
  * @property int $id
+ * @property string|null $album_id
  * @property string|null $name
  * @property string|null $artists
  * @property string|null $image_url
@@ -27,6 +28,7 @@ class Album extends Model
 	protected $table = 'albums';
 
 	protected $fillable = [
+		'album_id',
 		'name',
 		'artists',
 		'image_url',
