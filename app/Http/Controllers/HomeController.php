@@ -31,7 +31,7 @@ class HomeController extends Controller
 
                 $tracks[] = [
                     'album_id' => $item->track->album->id,
-                    'album_name' => $item->track->album->name,
+                    'name' => $item->track->album->name,
                     'image_url' => isset($item->track->album->images[0]) ? $item->track->album->images[0]->url : NULL,
                     'artists' => implode(', ', $artists),
                 ];
