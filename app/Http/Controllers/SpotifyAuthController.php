@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection LaravelFunctionsInspection */
 
 namespace App\Http\Controllers;
 
@@ -11,9 +11,9 @@ class SpotifyAuthController extends Controller
     public function login()
     {
         $session = new SpotifySession(
-            env('SPOTIFY_CLIENT_ID'),
-            env('SPOTIFY_CLIENT_SECRET'),
-            env('SPOTIFY_REDIRECT_URI')
+            config('services.spotify.client_id'),
+            config('services.spotify.client_secret'),
+            config('services.spotify.redirect')
         );
 
         $options = [
@@ -27,9 +27,9 @@ class SpotifyAuthController extends Controller
     {
 
         $session = new SpotifySession(
-            env('SPOTIFY_CLIENT_ID'),
-            env('SPOTIFY_CLIENT_SECRET'),
-            env('SPOTIFY_REDIRECT_URI')
+            config('services.spotify.client_id'),
+            config('services.spotify.client_secret'),
+            config('services.spotify.redirect')
         );
 
 
