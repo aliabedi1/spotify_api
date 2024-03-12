@@ -17,7 +17,7 @@ class HomeController extends Controller
         $offset = 0;
         for ($counter = 0; $counter < 32; $counter++) {
             $data = $api->getPlaylistTracks(config('services.spotify.playlist_id'), [
-                'offset' => ($counter+1) + 100,
+                'offset' => ($counter+1) * 100,
             ]);
 
             $tracks = [];
