@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Album;
 use SpotifyWebAPI\SpotifyWebAPI;
 
 class HomeController extends Controller
@@ -15,25 +16,28 @@ class HomeController extends Controller
 //        $userData = $api->me();
         $tracks = [];
         $offset = 0;
-        for ($counter = 0; $counter < 4; $counter++) {
+        for ($counter = 0; $counter < 32; $counter++) {
             $data = $api->getPlaylistTracks('2XICHivZc0s0hCRSBEtiZS', [
                 'offset' => $offset
             ]);
             $items = response()->json($data)->original->items;
+//            dd($items[0]);
             foreach ($items as $item) {
                 $artists = '';
                 foreach ($item->track->album->artists as $artist) {
                     $artists .= $artist->name;
                 }
-                $tracks[$artists . $item->track->album->name] = [
+                $tracks[] = [
+                    'album_id' => $item->track->album->id,
                     'album_name' => $item->track->album->name,
-                    'poster' => $item->track->album->images[0]->url,
+                    'poster' => isset($item->track->album->images[0]) ? $item->track->album->images[0]->url : null,
+                    'artists' => $artists
                 ];
             }
-            sleep(10);
+            sleep(5);
             $offset += 100;
         }
-        dd($tracks);
+//        Album::
 
 
     }
