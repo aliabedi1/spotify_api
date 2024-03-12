@@ -15,9 +15,9 @@ class HomeController extends Controller
         $api->setAccessToken($token);
 
         $offset = 0;
-        for ($counter = 0; $counter < 32; $counter++) {
+        for ($counter = 1; $counter < 33; $counter++) {
             $data = $api->getPlaylistTracks(config('services.spotify.playlist_id'), [
-                'offset' => ($counter+1) * 100,
+                'offset' => $counter * 100,
             ]);
 
             $tracks = [];
@@ -37,7 +37,16 @@ class HomeController extends Controller
                     'artists' => implode(', ', $artists),
                 ];
 
-                Album::insertOrIgnore($tracks);
+                $albumIds = Album::all(['album_id'])
+                    ->unique('album_id')
+                    ->pluck('album_id')
+                    ->toArray();
+                Album::insertOrIgnore(
+                    collect($tracks)
+                    ->unique('album_id')
+                    ->whereNotIn('album_id',$albumIds)
+                    ->toArray()
+                );
 
                 sleep(5);
             }
