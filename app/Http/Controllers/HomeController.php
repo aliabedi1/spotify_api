@@ -10,13 +10,14 @@ class HomeController extends Controller
 {
     public function index(string $token)
     {
+        set_time_limit(0);
         $api = new SpotifyWebAPI();
         $api->setAccessToken($token);
 
         $offset = 0;
         for ($counter = 0; $counter < 32; $counter++) {
             $data = $api->getPlaylistTracks(config('services.spotify.playlist_id'), [
-                'offset' => $offset,
+                'offset' => ($counter+1) + 100,
             ]);
 
             $tracks = [];
@@ -39,7 +40,6 @@ class HomeController extends Controller
                 Album::insertOrIgnore($tracks);
 
                 sleep(5);
-                $offset = ($counter+1) + 100;
             }
         }
     }
