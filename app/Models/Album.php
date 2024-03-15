@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Album
@@ -17,21 +18,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $name
  * @property string|null $artists
  * @property string|null $image_url
- * @property string $selected
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
  *
  * @package App\Models
  */
 class Album extends Model
 {
+	use SoftDeletes;
 	protected $table = 'albums';
 
 	protected $fillable = [
 		'album_id',
 		'name',
 		'artists',
-		'image_url',
-		'selected'
+		'image_url'
 	];
 }
