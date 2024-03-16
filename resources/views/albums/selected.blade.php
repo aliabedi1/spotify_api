@@ -21,14 +21,15 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row d-flex justify-content-center">
                 @foreach($albums as $album)
-                    <div class="col-lg-6 col-md-12 mb-1 d-flex flex-column justify-content-between"
+                    <div class="col-lg-8 col-md-8 mb-1 d-flex flex-column "
                          id="album-section-{{ $album->id }}">
-                        <div id="product-{{ $album->id }}" class="single-product">
-                            <img class="col-12 rounded" src="{{ $album->image_url }}" alt="{{ $album->name }}">
+                        <div id="product-{{ $album->id }}" class="single-product justify-content-center">
+                            <img class="col-md-12 rounded" src="{{ $album->image_url }}" alt="{{ $album->name }}">
                             <div class="part-2 font-italic">
                                 <h3 class="product-title mt-2 text-center">{{ $album->name }}</h3>
+                                <h3 class="product-title mt-1 text-center">{{ $album->artists }}</h3>
                             </div>
                             <div class="mt-auto justify-content-center d-flex">
                                 <button type="button"
