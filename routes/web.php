@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('albums')->as('albums')->group(function () {
     Route::get('/', [AlbumsController::class, 'index'])->name('.index');
-    Route::get('/select/{album}', [AlbumsController::class, 'select'])->name('.select');
+    Route::post('/select/{album}', [AlbumsController::class, 'select'])->name('.select');
+    Route::get('/selected', [AlbumsController::class, 'selected'])->name('.selected');
     Route::delete('/delete/{album}', [AlbumsController::class, 'delete'])->name('.delete');
     Route::get('/deleted', [AlbumsController::class, 'deleted'])->name('.deleted');
     Route::post('/recycle/{album}', [AlbumsController::class, 'recycle'])->withTrashed()->name('.recycle');
+    Route::get('/recover-last', [AlbumsController::class, 'deleted'])->name('.deleted');
 });
+
+
