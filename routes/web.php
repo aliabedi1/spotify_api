@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlbumsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-//    \App\Models\Album::create([
-//        ''
-//    ])
+Route::prefix('albums')->as('albums')->group(function () {
+    Route::get('/', [AlbumsController::class, 'index'])->name('.index');
+    Route::get('/select/{album}', [AlbumsController::class, 'select'])->name('.select');
+    Route::delete('/delete/{album}', [AlbumsController::class, 'delete'])->name('.delete');
+    Route::get('/deleted', [AlbumsController::class, 'deleted'])->name('.deleted');
+    Route::post('/recycle/{album}', [AlbumsController::class, 'recycle'])->withTrashed()->name('.recycle');
 });
