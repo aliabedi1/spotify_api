@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Selected;
 use App\Models\Album;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AlbumsController extends Controller
 {
@@ -14,11 +14,10 @@ class AlbumsController extends Controller
             'albums' => Album::query()
                 ->where('selected', Selected::NO)
                 ->latest()
-                ->simplePaginate(5),
-            'songs' => Album::count(),
+                ->simplePaginate(500),
+            'songs' => Album::where('selected',Selected::NO)->count(),
             'title' => 'Albums',
         ]);
-
     }
 
 
@@ -29,22 +28,40 @@ class AlbumsController extends Controller
                 'selected' => Selected::YES,
             ]);
 
-        return response('album selected successfully.', 200);
+        Log::info($album->id . ' selected');
+        return response('success');
     }
+    public function selected()
+    {
+        $albums = Album::query()
+            ->where('selected',Selected::YES)
+            ->orderBy('name','asc')
+            ->get();
+        return view('albums.selected',[
+            'albums' => $albums,
+            'albums_count' => $albums->count(),
+            'title' => 'Selected Albums'
+        ]);
+    }
+
 
     public function delete(Album $album)
     {
+        Log::info($album->id . ' deleted');
         $album->delete();
-        return response('album removed successfully.', 200);
+
+        return response('success');
     }
+
 
     public function deleted()
     {
-
     }
+
 
     public function recycle(Album $album)
     {
+        Log::info($album->id . ' recylcled');
 
     }
 }
