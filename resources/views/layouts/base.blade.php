@@ -15,6 +15,5 @@
     @yield('body')
 </body>
 
-<script>
+
     @yield('script')
-</script>
